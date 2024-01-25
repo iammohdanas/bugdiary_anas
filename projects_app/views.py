@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ProjectForm
 from .models import Project
+from django.shortcuts import get_object_or_404
 
 def home(request):
     project_list = Project.objects.all()
@@ -32,3 +33,10 @@ def add_project(request):
         'form': form
     }
     return render(request, 'projects_app/add_project.html',context)
+
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    if request.method == 'POST':
+        project.delete()
+        return redirect('home')
+    return render(request, 'projects_app/delete_project_confirm.html', {'project': project})

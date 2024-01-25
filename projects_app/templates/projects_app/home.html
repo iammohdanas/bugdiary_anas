@@ -16,6 +16,35 @@
                         <td><a href="{% url 'bug_list' project.id %}">{{project.name}}</a></td>
                         <td>{{project.organization_name}}</td>
                         <td>{{project.technology}}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteProjectModal{{ project.id }}">
+                                <i class="fas fa-trash-alt"></i> Delete
+                              </button>
+                              
+                              <!-- Modal -->
+                              <div class="modal fade" id="deleteProjectModal{{ project.id }}" tabindex="-1" aria-labelledby="deleteProjectModalLabel{{ project.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="deleteProjectModalLabel{{ project.id }}">Confirm Deletion</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p>Are you sure you want to delete "{{ project.name }}"?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <form method="post" action="{% url 'delete_project' project.id %}">
+                                          {% csrf_token %}
+                                          <input type="submit" class="btn btn-danger" value="Delete">
+                                      </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
